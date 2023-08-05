@@ -1,0 +1,121 @@
+Para entrar no banco rode:
+Sudo Su
+docker-compose start
+docker-compose exec db bash
+mysql -u root -p
+Senha: 1234
+Use apiV1;
+
+Limpar cache
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+php artisan optimize:clear
+
+Para liberar acesso a api:
+docker-compose start
+php artisan serve
+guarde o link retornado
+Vale lembrar deixe o artisan executando
+
+Credenciamento JTW
+execute o metodo php artisan tinker
+e crie uma credencial rodando o seguinte exemplo:
+
+use App\Models\User;
+$user = new User();
+$user->name = 'Nome do Usuário';
+$user->email = 'seu-email@example.com';
+$user->password = bcrypt('sua-senha-secreta');
+$user->save();
+
+Quando for utilizar a api deve passar no json os seguintes parametros:
+{
+    "email" : "email utilizado",
+    "password" :  "senha colocada"
+}
+
+
+As funções liberadas na api são somente de CURD
+Para fazer requisições:
+Link: link_do_serve_local/API/nome_da_controler/função
+    Mandar parametros via json
+        
+Controlers, funções e como utilizar cada uma.
+todos os parametros devem ser enviados via json.
+
+    EmployeeManager:
+        create: recebe um json com as informaçoes passadas dentro do parametro 'data' e cria um novo funcionario
+            informações nescessarias: nome, sobrenome, email, numero e id do departamento
+        
+        getAllEmployees: retorna um json com todos os funcionarios cadastrados
+
+        getEmployeeById: retorna um funcionario pelo id
+            informaçoes nescessarias: parametro Id preenchido com o Id do funcionario
+
+        updateEmployee: atualiza um funcionario
+            informações nescessarias
+                parametro id preenchido com o Id do funcionario
+                parametro data preenchido opcionalmente com o desejado como: nome sobrenome, email, numero ou id do departamento
+
+        deleteEmployee: deleta um funcionario 
+            informações nescesarias: paramentro id preenchido com o Id do funcionario
+
+        deleteSelectEmployees: deleta varios funcionarios
+            informações nescesarias: paramentro ids preenchido com um array de Ids de funcionarios
+
+    DepartmentManager:
+        create: recebe um json com as informaçoes passadas dentro do parametro 'data' e cria um novo departamento
+            informações nescessarias: nome
+        
+        getAllDepartments: retorna um json com todos os departamentos cadastrados
+
+        getDepartmentById: retorna um departamento pelo id
+            informaçoes nescessarias: parametro Id preenchido com o Id do departamento
+
+        updateDepartment: atualiza um departamento
+            informações nescessarias
+                parametro id preenchido com o Id do departamento
+                parametro data preenchido opcionalmente com o nome
+
+        deleteDepartment: deleta um departamento 
+            informações nescesarias: paramentro id preenchido com o Id do departamento
+
+        deleteSelectDepartments: deleta varios departamentos
+            informações nescesarias: paramentro ids preenchido com um array de Ids de departamentos
+
+    TaskManager:
+        create: recebe um json com as informaçoes passadas dentro do parametro 'data' e cria um nova tarefa
+            informações nescessarias: titulo, descrição, id fo funcionario responsavel, data de entrega(opcional)
+        
+        getAllTasks: retorna um json com todas as tarefas cadastradas
+
+        getTaskById: retorna uma tarefa pelo id
+            informaçoes nescessarias: parametro Id preenchido com o Id da tarefa
+
+        updateTask: atualiza um tarefa
+            informações nescessarias
+                parametro id preenchido com o Id da tarefa
+                parametro data preenchido opcionalmente com titulo, descrição, id fo funcionario responsavel e/ou data de entrega
+
+        deleteTaskById: deleta uma tarefa 
+            informações nescesarias: paramentro id preenchido com o Id do tarefa
+
+        deleteSelectTasks: deleta varias tarefas
+            informações nescesarias: paramentro ids preenchido com um array de Ids de tarefas
+
+    Nome dos objetos a serem passados para o parametro data
+        TaskManager: title, description, assignee_id, due_date
+        DepartmentManager: name
+        EmployeeManager: firstName, lastName, email, phone, department_id
+
+
+Exemplo de json criação de task:
+{
+    "data": {
+        "title": "Contratar customer success Jr.",
+        "description": "Contratar um customer success Jr. para auxiliar nas demandas da Laura",
+        "assignee_id": "3"
+    }
+}

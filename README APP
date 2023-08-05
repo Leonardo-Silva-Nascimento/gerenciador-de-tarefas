@@ -1,0 +1,21 @@
+Para entrar no banco rode:
+Sudo Su
+docker-compose start
+docker-compose exec db bash
+mysql -u root -p
+Senha: 1234
+Use apiV1;
+
+Para acessar o app:
+docker-compose start
+php artisan serve
+Acesse o link retornado
+Vale lembrar deixe o artisan executando
+
+
+Limpar cache
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+php artisan optimize:clear
